@@ -14,7 +14,7 @@ To launch the application:
 URI:
 /Library/ALL
 ```
-To get the list of all books in library
+To get the list of all books in library.
 
 ```aidl
 URI:
