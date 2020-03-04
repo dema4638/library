@@ -53,17 +53,18 @@ public class Library {
                 bookExisted = true;
                 String title = obj.get("Pavadinimas").toString();
                 String author = obj.get("Autorius").toString();
-                String newIsbn = obj.get("ISBN").toString();
+                //String newIsbn = obj.get("ISBN").toString();
                 int year = Integer.parseInt(obj.get("Metai").toString());
                 book.updateAuthor(author);
                 book.updateTitle(title);
-                book.updateIsbn(newIsbn);
+               // book.updateIsbn(newIsbn);
                 book.updateYear(year);
                 break;
             }
         }
 
             if (bookExisted == false){
+                obj.put("ISBN", isbn);
                 addNewBook(obj);
             }
 
