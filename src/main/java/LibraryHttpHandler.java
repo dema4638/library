@@ -39,7 +39,7 @@ public class LibraryHttpHandler implements HttpHandler {
         JSONObject obj = new JSONObject();
 
         //if (request.equals("ALL")) { //ALL
-        if (request.equals("")){
+        if (request.isBlank()){
             arrList = Library.getAllBooks();
             for (Book book : arrList) {
                 jsonArray.add(book.convertToJson());
