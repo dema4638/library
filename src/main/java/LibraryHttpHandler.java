@@ -38,7 +38,7 @@ public class LibraryHttpHandler implements HttpHandler {
         JSONArray jsonArray = new JSONArray();
         JSONObject obj = new JSONObject();
 
-        if (request.equals("ALL")) {
+        if (request.equals("ALL")) { //ALL
             arrList = Library.getAllBooks();
             for (Book book : arrList) {
                 jsonArray.add(book.convertToJson());
@@ -92,7 +92,7 @@ public class LibraryHttpHandler implements HttpHandler {
     public void handlePostRequest(HttpExchange exchange) {
         String uri = exchange.getRequestURI().toString();
         String[] splitedUri = uri.split("/");
-        String request=splitedUri[1];
+        String request=splitedUri[2];
         InputStream is = exchange.getRequestBody();
         String requestBodyStr = "";
         try {
@@ -106,7 +106,7 @@ public class LibraryHttpHandler implements HttpHandler {
             System.out.println(obj.get("Pavadinimas"));
 
             Library.addNewBook(obj);
-            exchange.getResponseHeaders().put("location", Collections.singletonList("/library/"+obj.get("ISBN")));
+            exchange.getResponseHeaders().put("location", Collections.singletonList("/books/"+obj.get("ISBN")));
 
             exchange.sendResponseHeaders(201, -1);
 
@@ -135,7 +135,7 @@ public class LibraryHttpHandler implements HttpHandler {
     public void handleDeleteRequest(HttpExchange exchange) {
         String uri = exchange.getRequestURI().toString();
         String[] splitedUri = uri.split("/");
-        String request=splitedUri[1];
+        String request=splitedUri[2];
 
         boolean bookWasFound = Library.deleteBook(request);
 
@@ -175,7 +175,7 @@ public class LibraryHttpHandler implements HttpHandler {
             JSONObject obj = (JSONObject) JSONValue.parse(requestBodyStr);
             boolean alreadyExisted = Library.putBook(obj, isbn);
 
-            exchange.getResponseHeaders().put("Location", Collections.singletonList("/library/" + isbn));
+            exchange.getResponseHeaders().put("Location", Collections.singletonList("/books/" + isbn));// "/Library/"
             int responseCode;
             if (alreadyExisted == false){
                 responseCode = 201;
