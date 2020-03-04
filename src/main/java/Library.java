@@ -57,7 +57,7 @@ public class Library {
                 int year = Integer.parseInt(obj.get("Metai").toString());
                 book.updateAuthor(author);
                 book.updateTitle(title);
-               // book.updateIsbn(newIsbn);
+               //book.updateIsbn(newIsbn);
                 book.updateYear(year);
                 break;
             }

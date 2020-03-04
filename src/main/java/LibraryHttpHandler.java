@@ -163,7 +163,7 @@ public class LibraryHttpHandler implements HttpHandler {
     public void handlePutRequest(HttpExchange exchange) {
         String uri = exchange.getRequestURI().toString();
         String[] splitedUri = uri.split("/");
-        String isbn=splitedUri[1];
+        String isbn=splitedUri[2];
         InputStream is = exchange.getRequestBody();
         String requestBodyStr = "";
         try {
