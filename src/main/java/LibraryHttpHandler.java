@@ -17,6 +17,7 @@ public class LibraryHttpHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if ("GET".equals(exchange.getRequestMethod())) {
+            System.out.println("Here");
             JSONObject obj = new JSONObject();
             String uri = exchange.getRequestURI().toString();
             String[] splitedUri = uri.split("/");
