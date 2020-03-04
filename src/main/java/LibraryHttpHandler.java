@@ -21,7 +21,7 @@ public class LibraryHttpHandler implements HttpHandler {
             JSONObject obj = new JSONObject();
             String uri = exchange.getRequestURI().toString();
             String[] splitedUri = uri.split("/");
-            String request = splitedUri[2];
+            String request = splitedUri[1];
             System.out.println(request);
             obj = getResponse(exchange, request);
             sendResponse(obj, exchange, 200);
