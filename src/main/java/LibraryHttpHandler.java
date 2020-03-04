@@ -17,12 +17,10 @@ public class LibraryHttpHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if ("GET".equals(exchange.getRequestMethod())) {
-            System.out.println("Here");
             JSONObject obj = new JSONObject();
             String uri = exchange.getRequestURI().toString();
             String[] splitedUri = uri.split("/");
             String request = splitedUri[2];
-            System.out.println(request);
             obj = getResponse(exchange, request);
             sendResponse(obj, exchange, 200);
         } else if ("POST".equals(exchange.getRequestMethod())) {
@@ -40,7 +38,8 @@ public class LibraryHttpHandler implements HttpHandler {
         JSONArray jsonArray = new JSONArray();
         JSONObject obj = new JSONObject();
 
-        if (request.equals("ALL")) { //ALL
+        //if (request.equals("ALL")) { //ALL
+        if (request.isEmpty()){
             arrList = Library.getAllBooks();
             for (Book book : arrList) {
                 jsonArray.add(book.convertToJson());
@@ -107,7 +106,7 @@ public class LibraryHttpHandler implements HttpHandler {
 
             System.out.println(obj.get("Pavadinimas"));
 
-            Library.addNewBook(obj);
+            Library.addNewBook(obj, request);
             exchange.getResponseHeaders().put("location", Collections.singletonList("/books/"+obj.get("ISBN")));
 
             exchange.sendResponseHeaders(201, -1);
