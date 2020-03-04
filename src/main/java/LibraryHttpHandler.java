@@ -20,7 +20,7 @@ public class LibraryHttpHandler implements HttpHandler {
             JSONObject obj = new JSONObject();
             String uri = exchange.getRequestURI().toString();
             String[] splitedUri = uri.split("/");
-            String request = splitedUri[2];
+            String request = splitedUri[1];
             obj = getResponse(exchange, request);
             sendResponse(obj, exchange, 200);
         } else if ("POST".equals(exchange.getRequestMethod())) {
