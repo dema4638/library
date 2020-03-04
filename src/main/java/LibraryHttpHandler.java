@@ -38,8 +38,8 @@ public class LibraryHttpHandler implements HttpHandler {
         JSONArray jsonArray = new JSONArray();
         JSONObject obj = new JSONObject();
 
-        //if (request.equals("ALL")) { //ALL
-        if (request == null){
+        if (request.equals("ALL")) { //ALL
+      //  if (request == null){
             arrList = Library.getAllBooks();
             for (Book book : arrList) {
                 jsonArray.add(book.convertToJson());
