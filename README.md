@@ -6,6 +6,7 @@ To launch the application:
 1. Git clone https://github.com/dema4638/library.git
 2. cd library
 3. docker-compose up:
+4. [Optional] to rebuild application: docker-compose-up --build
 
 ### Follow these instructions:
 
