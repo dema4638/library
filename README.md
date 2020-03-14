@@ -12,20 +12,20 @@ To launch the application:
 #### GET
 ```aidl
 URI:
-/Library/ALL
+/books
 ```
 To get the list of all books in library.
 
 ```aidl
 URI:
-/Library/9786090138823
+/books/9786090138823
 ```
 To get the book with particular ISBN.
 
 #### PUT
 ```aidl
 URI:
-/Library/
+/books/01234567890
 
 Body:
 {"Pavadinimas": "", "Autorius": "", "Metai":""}
@@ -35,14 +35,14 @@ To change book's title, author or year it was written, according to it's ISBN. I
 #### DELETE
 ```aidl
 URI:
-/Library/9786090138823
+/books/9786090138823
 ```
 To delete the book which ISBN is given in URI.
 
 #### POST
 ```aidl
 URI:
-/Library/
+/books
 
 Body:
 {"Pavadinimas": "", "Autorius": "", "ISBN": "", "Metai":""}
