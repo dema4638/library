@@ -42,7 +42,7 @@ To delete the book which ISBN is given in URI.
 #### POST
 ```aidl
 URI:
-/books/
+/books
 
 Body:
 {"Pavadinimas": "", "Autorius": "", "ISBN": "", "Metai":""}
