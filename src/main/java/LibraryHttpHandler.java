@@ -16,11 +16,14 @@ import java.util.Collections;
 public class LibraryHttpHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        String request ="";
         if ("GET".equals(exchange.getRequestMethod())) {
             JSONObject obj = new JSONObject();
             String uri = exchange.getRequestURI().toString();
             String[] splitedUri = uri.split("/");
-            String request = splitedUri[2];
+            if (splitedUri.length > 2){
+                request = splitedUri[2];
+            }
             obj = getResponse(exchange, request);
             sendResponse(obj, exchange, 200);
         } else if ("POST".equals(exchange.getRequestMethod())) {
@@ -34,12 +37,13 @@ public class LibraryHttpHandler implements HttpHandler {
 
 
     public JSONObject getResponse(HttpExchange exchange, String request) {
+        System.out.println("Hi");
         ArrayList<Book> arrList = new ArrayList<>();
         JSONArray jsonArray = new JSONArray();
         JSONObject obj = new JSONObject();
 
-        if (request.equals("ALL")) { //ALL
-      //  if (request == null){
+        //if (request.equals("ALL")) { //ALL
+        if (request.equals("")){
             arrList = Library.getAllBooks();
             for (Book book : arrList) {
                 jsonArray.add(book.convertToJson());
