@@ -95,9 +95,9 @@ public class LibraryHttpHandler implements HttpHandler {
     }
 
     public void handlePostRequest(HttpExchange exchange) {
-        String uri = exchange.getRequestURI().toString();
+       /* String uri = exchange.getRequestURI().toString();
         String[] splitedUri = uri.split("/");
-        String request=splitedUri[2];
+        String request=splitedUri[2]; */
         InputStream is = exchange.getRequestBody();
         String requestBodyStr = "";
         try {
@@ -109,7 +109,7 @@ public class LibraryHttpHandler implements HttpHandler {
             JSONObject obj = (JSONObject) JSONValue.parse(requestBodyStr);
 
 
-            Library.addNewBook(obj, request);
+            Library.addNewBook(obj);
             exchange.getResponseHeaders().put("location", Collections.singletonList("/books/"+obj.get("ISBN")));
 
             exchange.sendResponseHeaders(201, -1);

@@ -26,10 +26,10 @@ public class Library {
         return null;
     }
 
-    public static void addNewBook(JSONObject obj, String isbn) {
+    public static void addNewBook(JSONObject obj) {
         String title = obj.get("Pavadinimas").toString();
         String author = obj.get("Autorius").toString();
-       // String isbn = obj.get("ISBN").toString();
+        String isbn = obj.get("ISBN").toString();
         int year = Integer.parseInt(obj.get("Metai").toString());
         booksList.add(new Book(title, author, isbn, year));
     }
@@ -65,7 +65,7 @@ public class Library {
 
             if (bookExisted == false){
                 obj.put("ISBN", isbn);
-                addNewBook(obj, isbn);
+                addNewBook(obj);
             }
 
         return bookExisted;
