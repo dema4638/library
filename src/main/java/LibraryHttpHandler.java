@@ -108,12 +108,16 @@ public class LibraryHttpHandler implements HttpHandler {
             }
             JSONObject obj = (JSONObject) JSONValue.parse(requestBodyStr);
 
+            if (Library.checkExistence(obj) == false) {
+                Library.addNewBook(obj);
+                exchange.getResponseHeaders().put("location", Collections.singletonList("/books/" + obj.get("ISBN")));
 
-            Library.addNewBook(obj);
-            exchange.getResponseHeaders().put("location", Collections.singletonList("/books/"+obj.get("ISBN")));
+                exchange.sendResponseHeaders(201, -1);
+            }
 
-            exchange.sendResponseHeaders(201, -1);
-
+            else {
+                exchange.sendResponseHeaders(400, -1);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -46,7 +46,7 @@ public class Library {
         return bookWasFound;
     }
 
-        public static boolean putBook(JSONObject obj, String isbn) {
+    public static boolean putBook(JSONObject obj, String isbn) {
         boolean bookExisted = false;
         for (Book book : booksList) {
             if (book.getIsbn().equals(isbn)) {
@@ -57,17 +57,28 @@ public class Library {
                 int year = Integer.parseInt(obj.get("Metai").toString());
                 book.updateAuthor(author);
                 book.updateTitle(title);
-               //book.updateIsbn(newIsbn);
+                //book.updateIsbn(newIsbn);
                 book.updateYear(year);
                 break;
             }
         }
 
-            if (bookExisted == false){
-                obj.put("ISBN", isbn);
-                addNewBook(obj);
-            }
+        if (bookExisted == false) {
+            obj.put("ISBN", isbn);
+            addNewBook(obj);
+        }
 
         return bookExisted;
+    }
+
+    public static boolean checkExistence(JSONObject obj) {
+
+        boolean bookExists = false;
+        for (Book book : booksList) {
+            if (book.getIsbn().equals(obj.get("ISBN").toString())) {
+                bookExists = true;
+            }
+        }
+        return bookExists;
     }
 }
