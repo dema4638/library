@@ -106,17 +106,35 @@ public class LibraryHttpHandler implements HttpHandler {
             while ((ch = is.read()) != -1) {
                 requestBodyStr += (char) ch;
             }
-            JSONObject obj = (JSONObject) JSONValue.parse(requestBodyStr);
-
-            if (Library.checkExistence(obj) == false) {
-                Library.addNewBook(obj);
-                exchange.getResponseHeaders().put("location", Collections.singletonList("/books/" + obj.get("ISBN")));
-
-                exchange.sendResponseHeaders(201, -1);
+            JSONObject obj = null;
+            try {
+                obj = (JSONObject) JSONValue.parse(requestBodyStr);
             }
+            catch(Exception e){
+                try {
+                    exchange.sendResponseHeaders(400, -1);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            if (obj != null) {
+                if (obj.containsKey("ISBN") && obj.containsKey("Pavadinimas") && obj.containsKey("Metai") && obj.containsKey("Autorius")) {
+                    if (Library.checkExistence(obj) == false) {
+                        Library.addNewBook(obj);
+                        exchange.getResponseHeaders().put("location", Collections.singletonList("/books/" + obj.get("ISBN")));
 
-            else {
-                exchange.sendResponseHeaders(400, -1);
+                        exchange.sendResponseHeaders(201, -1);
+                    } else {
+                        exchange.sendResponseHeaders(400, -1);
+                    }
+                } else {
+                    //exchange.getResponseHeaders().put("Body", Collections.singletonList("Bad request body"));
+
+                    byte[] encodedResponse = "Bad request body".getBytes(StandardCharsets.UTF_8);
+                    exchange.sendResponseHeaders(400, encodedResponse.length);
+                    exchange.getResponseBody().write(encodedResponse);
+                    exchange.getResponseBody().close();
+                }
             }
 
         } catch (IOException e) {
@@ -181,18 +199,24 @@ public class LibraryHttpHandler implements HttpHandler {
                 requestBodyStr += (char) ch;
             }
             JSONObject obj = (JSONObject) JSONValue.parse(requestBodyStr);
-            boolean alreadyExisted = Library.putBook(obj, isbn);
+            if (obj.containsKey("Pavadinimas") && obj.containsKey("Metai") && obj.containsKey("Autorius")) {
+                boolean alreadyExisted = Library.putBook(obj, isbn);
 
-            exchange.getResponseHeaders().put("Location", Collections.singletonList("/books/" + isbn));// "/Library/"
-            int responseCode;
-            if (alreadyExisted == false){
-                responseCode = 201;
-            }
-            else {
-                responseCode = 200;
-            }
+                exchange.getResponseHeaders().put("Location", Collections.singletonList("/books/" + isbn));// "/Library/"
+                int responseCode;
+                if (alreadyExisted == false) {
+                    responseCode = 201;
+                } else {
+                    responseCode = 200;
+                }
 
-            exchange.sendResponseHeaders(responseCode, -1);
+                exchange.sendResponseHeaders(responseCode, -1);
+            } else {
+                byte[] encodedResponse = "Bad request body".getBytes(StandardCharsets.UTF_8);
+                exchange.sendResponseHeaders(400, encodedResponse.length);
+                exchange.getResponseBody().write(encodedResponse);
+                exchange.getResponseBody().close();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
